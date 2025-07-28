@@ -1,0 +1,42 @@
+<!-- // html e sağ tıklayıp live server diyince açıyor programı -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Görev Listesi</title>
+    
+ 
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <h1>kullanıcı girişi</h1>
+
+ <form id="kullaniciGirisForm">
+  <label for="fname">Kullanıcı Adı:</label><br>
+  <input type="text" id="fname" name="fname" ><br>
+  <label for="fname">Kullanıcı Soyad:</label><br>
+  <input type="text" id="lname" name="lname" ><br>
+  <label for="email">Kullanıcı e-mail:</label><br>
+  <input type="email" id="email" name="email" ><br>
+  <label for="password">Şifre:</label><br>
+  <input type="password" id="password" name="password" ><br><br>
+  <button type="submit" value="giris" >giris</button>
+</form> 
+
+<div id="gorevAlani" style="display: none;">
+  <input type="text" id="gorevInput" placeholder="Görev girin">
+  <button id="ekleBtn">Ekle</button>
+  <ul id="gorevListesi"></ul>
+  <button id="randomTaskBtn">Rastgele Görev Öner</button>
+<ul id="taskList"></ul>
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="module" src="app.js"></script>
+  
+</body>
+</html>
