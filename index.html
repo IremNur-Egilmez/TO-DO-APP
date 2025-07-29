@@ -1,42 +1,329 @@
-<!-- // html e sağ tıklayıp live server diyince açıyor programı -->
+<!-- // Html e sağ tıklayıp live server deyince açıyor program -->
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Görev Listesi</title>
-    
- 
-    <link rel="stylesheet" href="style.css">
-
-</head>
-<body>
-    <h1>kullanıcı girişi</h1>
-
- <form id="kullaniciGirisForm">
-  <label for="fname">Kullanıcı Adı:</label><br>
-  <input type="text" id="fname" name="fname" ><br>
-  <label for="fname">Kullanıcı Soyad:</label><br>
-  <input type="text" id="lname" name="lname" ><br>
-  <label for="email">Kullanıcı e-mail:</label><br>
-  <input type="email" id="email" name="email" ><br>
-  <label for="password">Şifre:</label><br>
-  <input type="password" id="password" name="password" ><br><br>
-  <button type="submit" value="giris" >giris</button>
-</form> 
-
-<div id="gorevAlani" style="display: none;">
-  <input type="text" id="gorevInput" placeholder="Görev girin">
-  <button id="ekleBtn">Ekle</button>
-  <ul id="gorevListesi"></ul>
-  <button id="randomTaskBtn">Rastgele Görev Öner</button>
-<ul id="taskList"></ul>
-</div>
-
-
+    <link rel="stylesheet" href="style.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="module" src="app.js"></script>
-  
-</body>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body
+    class="min-h-screen bg-cover bg-center flex flex-col items-center justify-start pt-10 px-4"
+    style="background-image: url('img/arkaplan.jpg')"
+  >
+    <!-- kullanıcı giriş ekranı -->
+    <!-- min-h-screen: Yüksekliği en az ekran kadar yapar
+    bg-cover: Arka plan resmini ekranı kaplayacak şekilde ölçekler
+    bg-center: Arka planı ortalar
+    flex flex-col: Dikey hizalanan esnek kutu (flex container)
+    items-center: Yatayda ortalar
+    justify-start: Yukarıdan başlatır (dikey)
+    pt-10: Yukarıdan 2.5rem iç boşluk
+    px-4: Yandan 1rem iç boşluk -->
+
+    <h1 class="text-3xl font-bold text-yellow-900 mb-6">KULLANICI GİRİŞİ</h1>
+<!-- text-3xl: Büyük başlık boyutu
+
+font-bold: Kalın yazı
+
+text-yellow-900: Koyu sarı yazı rengi
+
+mb-6: Alt boşluk -->
+    <form
+      id="kullaniciGirisForm"
+      class="bg-white/90 p-6 rounded-2xl shadow-lg w-full max-w-sm flex flex-col gap-4 border-2 border-amber-500"
+    >
+    <!-- bg-white/90: %90 opaklıkta beyaz arka plan
+
+p-6: İç boşluk (padding) – her yönden
+
+rounded-2xl: Daha büyük yuvarlatılmış köşeler
+
+shadow-lg: Büyük gölge
+
+w-full max-w-sm: Genişliği 100%, maksimum genişlik küçük ekran (24rem)
+
+flex flex-col: Dikey hizalama
+
+gap-4: Elemanlar arası boşluk
+
+border-2 border-amber-500: Kalın kehribar rengi kenarlık -->
+      <input
+        type="text"
+        id="fname"
+        name="fname"
+        placeholder="Kullanıcı Adı"
+        class="px-4 py-2 rounded-lg border border-gray-300"
+      />
+      <!-- px-4 py-2: Yatay ve dikey padding
+
+rounded-lg: Genişçe yuvarlatma
+
+border border-gray-300: Gri kenarlık -->
+      <input
+        type="text"
+        id="lname"
+        name="lname"
+        placeholder="Kullanıcı Soyadı"
+        class="px-4 py-2 rounded-lg border border-gray-300"
+      />
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="email"
+        class="px-4 py-2 rounded-lg border border-gray-300"
+      />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="password"
+        class="px-4 py-2 rounded-lg border border-gray-300"
+      />
+      <button
+        type="submit"
+        class="bg-yellow-900 text-white py-2 rounded-lg hover:bg-yellow-800 transition duration-200"
+      >
+      <!-- bg-yellow-900: Koyu sarı arka plan
+
+text-white: Beyaz yazı
+
+py-2: Dikey padding
+
+rounded-lg: Yuvarlak köşe
+
+hover:bg-yellow-800: Üzerine gelince tonu açılır
+
+transition duration-200: Geçiş efekti 200ms -->
+        giriş
+      </button>
+    </form>
+
+    <div
+      id="anaContainer"
+      class="w-full max-w-2xl mt-8 bg-white/90 p-6 rounded-xl shadow-lg space-y-6"
+    >
+    <!-- w-full max-w-2xl: Genişlik tam ama maksimum 42rem
+
+mt-8: Yukarıdan boşluk
+
+bg-white/90: Beyaz, %90 opaklık
+
+p-6: İç boşluk
+
+rounded-xl: Büyük köşe yuvarlama
+
+shadow-lg: Gölge
+
+space-y-6: Dikeyde elemanlar arasında 1.5rem boşluk -->
+      <div
+        id="chatContainer"
+        class="chat-container max-h-72 overflow-y-auto border border-yellow-700 p-4 bg-yellow-100/80 rounded-lg"
+      ></div>
+      <!-- max-h-72: Maksimum yükseklik (18rem)
+
+overflow-y-auto: Dikey scroll bar gerektiğinde göster
+
+border border-yellow-700: Koyu sarı kenarlık
+
+p-4: İç boşluk
+
+bg-yellow-100/80: Açık sarı arka plan (%80 opak)
+
+rounded-lg: Yuvarlatılmış köşeler -->
+
+      <!-- görev ekranı -->
+      <div id="gorevAlani" class="gorev-panel space-y-4" style="display: none">
+        <button
+          id="randomTaskBtn"
+          class="bg-yellow-800 text-white px-4 py-2 rounded-md hover:bg-yellow-700"
+        >
+        <!-- bg-yellow-800: Koyu sarı arka plan
+
+text-white: Beyaz yazı
+
+px-4 py-2: İç boşluk
+
+rounded-md: Orta düzey köşe yuvarlama
+
+hover:bg-yellow-700: Üzerine gelince tonu açılır -->
+          Rastgele Görev Öner
+        </button>
+        <div class="gorev-form flex gap-2">
+          <input
+            type="text"
+            id="gorevInput"
+            placeholder="Görev girin"
+            class="flex-1 px-3 py-2 rounded-md border border-gray-300"
+          />
+          <button
+            id="ekleBtn"
+            class="bg-yellow-800 text-white px-4 py-2 rounded-md hover:bg-yellow-700"
+          >
+          <!-- flex-1: Input tüm boşluğu kaplar
+
+px-3 py-2: İç boşluk
+
+rounded-md: Yuvarlatılmış köşe
+
+border border-gray-300: Gri kenarlık -->
+            Ekle
+          </button>
+        </div>
+        <ul id="gorevListesi" class="gorev-listesi space-y-2"></ul>
+       <!-- space-y-2: Liste elemanları arasında dikey boşluk (0.5rem) -->
+        <ul id="taskList"></ul>
+      </div>
+    </div>
+  </body>
 </html>
+
+
+<!-- 🧱 TAILWIND CSS YAPI KATEGORİLERİ
+Tailwind sınıfları mantıksal gruplara ayrılır. Her biri bir CSS özelliğine karşılık gelir. Aşağıda her grubun kısa açıklamasını, örneklerini ve ne işe yaradığını bulacaksın.
+
+1. 📐 Layout (Yerleşim)
+✅ Örnek sınıflar:
+container: Genişliği sınırlar ve ortalar
+
+block, inline-block, inline: Görünüm tipi
+
+flex, inline-flex: Flexbox açar
+
+grid, inline-grid: Grid sistemi açar
+
+hidden: Görünmez yapar
+
+w-full, h-screen: Genişlik/yükseklik kontrolü
+
+min-h-screen: En az ekran kadar uzunluk
+
+📦 Ne işe yarar?
+Elemanların nasıl yerleşeceğini kontrol eder. Flexbox ya da Grid gibi yapıları kolayca kurarsın.
+
+2. 🎯 Flexbox & Grid
+✅ Örnek sınıflar:
+flex, flex-col, flex-row: Esnek kutu yönü
+
+items-center, justify-center: Hizalama
+
+gap-4: Elemanlar arası boşluk
+
+grid-cols-3, col-span-2: Grid kolonları
+
+📦 Ne işe yarar?
+Responsive, esnek düzenler oluşturmak için.
+
+3. 📏 Spacing (Boşluklar)
+✅ Örnek sınıflar:
+m-4: Dış boşluk (margin)
+
+mt-2, mx-6: Üst / yatay margin
+
+p-4: İç boşluk (padding)
+
+px-3, py-1: Yatay / dikey padding
+
+📦 Ne işe yarar?
+Kutular arasında boşluk oluşturur.
+
+4. 🎨 Typography (Yazı Tipi)
+✅ Örnek sınıflar:
+text-lg, text-sm, text-3xl: Font büyüklüğü
+
+font-bold, font-light: Kalınlık
+
+text-center, text-left: Hizalama
+
+text-gray-800, text-red-500: Yazı rengi
+
+uppercase, italic, line-through
+
+📦 Ne işe yarar?
+Yazıların görünümünü belirler.
+
+5. 🎨 Colors (Renkler)
+✅ Örnek sınıflar:
+bg-blue-500, bg-red-100: Arka plan rengi
+
+text-white, text-gray-900: Yazı rengi
+
+border-green-700: Kenarlık rengi
+
+hover:bg-blue-700: Hover durumundaki arka plan
+
+📦 Ne işe yarar?
+Temaya uygun renklendirme sağlar. Tailwind, 50 ila 900 arasında tonlar içerir.
+
+6. 🔲 Border (Kenarlık)
+✅ Örnek sınıflar:
+border, border-2: Kenarlık kalınlığı
+
+border-gray-400: Renk
+
+rounded, rounded-lg, rounded-full: Köşe yuvarlaklığı
+
+📦 Ne işe yarar?
+Kutulara çizgi ve yuvarlaklık verir.
+
+7. 🌫️ Shadow (Gölge) & Ring (Halka)
+✅ Örnek sınıflar:
+shadow, shadow-md, shadow-lg
+
+ring, ring-2 ring-blue-500
+
+📦 Ne işe yarar?
+Derinlik ve görsel vurgular için kullanılır.
+
+8. 📱 Responsive Tasarım
+✅ Örnek prefix’ler:
+sm:, md:, lg:, xl:, 2xl:
+
+Örnek:
+html
+Kopyala
+Düzenle
+<p class="text-sm md:text-lg lg:text-xl">Metin</p>
+📦 Küçük ekranlarda küçük, orta ekranlarda daha büyük yazı.
+
+9. 🔁 State (Durum Sınıfları)
+✅ Örnekler:
+hover:bg-red-600: Üzerine gelince renk değiştir
+
+focus:outline-none: Tıklanınca kenarlık kaldır
+
+disabled:opacity-50: Buton devre dışıysa saydam
+
+📦 Dinamik kullanıcı etkileşimi sağlar.
+10. 🧠 Pseudo & Conditional Sınıflar
+first:, last:, even:, odd: → Liste elemanlarında
+
+group-hover: → Gruplu hover efektleri
+
+peer, peer-checked: → Form bağlantıları
+
+11. 🧪 Custom CSS Değeri Girmek (Aralık dışı değerler)
+Tailwind sınıfı dışında bir değer vermek istersen [] ile verebilirsin:
+
+html
+Kopyala
+Düzenle
+<div class="w-[420px] h-[320px] bg-[#123456]"></div>
+12. 🚀 Transition & Animasyon
+transition, duration-200, ease-in
+
+animate-bounce, animate-pulse, animate-spin
+
+13. ⚙️ Utilities (Yardımcı Araçlar)
+overflow-hidden, overflow-y-auto
+
+z-10, z-50 → Z-index
+
+cursor-pointer, select-none
+
+opacity-0, opacity-100 -->
