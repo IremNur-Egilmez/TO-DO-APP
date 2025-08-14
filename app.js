@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         metin: g.task,    // Görev metni
         tamam: g.done     // Görev tamamlanma durumu (true/false)
       }));
+      //foreach de kullanılabilirdi ama .map yeni dizi oluşturur foreach olan dizi üzerinde işlem yapar
 
       // Tüm görevleri kullanıcı arayüzüne ekliyoruz
       gorevler.forEach((gorev) => gorevEkleDOM(gorev));
@@ -192,4 +193,5 @@ document.addEventListener("DOMContentLoaded", function () {
     
   });
 });
+
 // Görevler hem localStorage üzerinden hem de CRUD API aracılığıyla senkronize ediliyor.
